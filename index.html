@@ -1,0 +1,530 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>Réserve ton appel — Anthony Sirius</title>
+<meta name="description" content="Choisis un créneau : un membre de l’équipe d’Anthony Sirius t’appelle à l’heure prévue.">
+<meta name="theme-color" content="#050607">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/poppins-400.woff2" as="font" type="font/woff2" crossorigin>
+<script defer src="/_vercel/insights/script.js"></script>
+
+<style>
+/* ============================================================
+   Réservation d'un appel avec un setter de l'équipe Skool.
+   Même charte que la page de vente (design.md) : un rouge, un
+   noir, un blanc ; Anton à la place de Blackheat, Poppins à la
+   place de Nexa.
+   ============================================================ */
+@font-face{font-family:'Anton';font-weight:400;font-style:normal;font-display:swap;src:url(/fonts/anton-400.woff2) format('woff2')}
+@font-face{font-family:'Poppins';font-weight:400;font-style:normal;font-display:swap;src:url(/fonts/poppins-400.woff2) format('woff2')}
+@font-face{font-family:'Poppins';font-weight:600;font-style:normal;font-display:swap;src:url(/fonts/poppins-600.woff2) format('woff2')}
+
+:root{
+  --rouge:#AE0000;
+  --noir:#050607;
+  --blanc:#FFFFFF;
+  --texte-2:rgba(255,255,255,.68);
+  --texte-3:rgba(255,255,255,.48);
+  --surface:rgba(255,255,255,.035);
+  --surface-2:rgba(255,255,255,.06);
+  --bord:rgba(255,255,255,.10);
+  --bord-2:rgba(255,255,255,.18);
+  --font-display:'Anton', Impact, 'Arial Narrow', sans-serif;
+  --font-ui:'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --gouttiere:16px;
+  --rayon:4px;
+}
+@media (min-width:768px){ :root{ --gouttiere:32px; } }
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{margin:0;background:var(--noir);color:var(--blanc);font:400 16px/1.6 var(--font-ui);-webkit-font-smoothing:antialiased;min-height:100vh}
+h1,h2,p{margin:0}
+button,input,select{font:inherit;color:inherit}
+.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+.page{max-width:640px;margin:0 auto;padding:40px var(--gouttiere) 64px}
+
+/* ---------- En-tête ---------- */
+.tete{text-align:center}
+.profil{width:84px;height:84px;margin:0 auto;border-radius:50%;overflow:hidden;background:var(--surface-2);border:2px solid var(--rouge)}
+.profil img{width:100%;height:100%;object-fit:cover;display:block}
+.etiquette{margin-top:18px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--texte-2)}
+h1{margin-top:10px;font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:clamp(34px, 9vw, 52px);line-height:1.16;letter-spacing:.005em}
+.aplat{color:var(--blanc);padding:0 .14em;background:linear-gradient(var(--rouge),var(--rouge)) 0 50% / 100% .92em no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.chapo{margin-top:12px;color:var(--texte-2);font-size:15px}
+.infos{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px}
+.infos > span{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--bord);background:var(--surface);border-radius:var(--rayon);font-size:13px;color:var(--texte-2)}
+.infos .i{width:15px;height:15px;color:var(--blanc)}
+.infos em{font-style:normal}
+
+/* ---------- Étapes ---------- */
+.carte{margin-top:28px;padding:22px 18px;border:1px solid var(--bord);background:var(--surface);border-radius:var(--rayon)}
+@media (min-width:560px){ .carte{padding:28px} }
+.carte h2{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:24px;line-height:1.16;letter-spacing:.01em}
+.carte .sous{margin-top:6px;font-size:13px;color:var(--texte-3)}
+
+.jours{display:flex;gap:8px;margin:18px calc(-1 * 18px) 0;padding:0 18px 6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
+.jours::-webkit-scrollbar{display:none}
+@media (min-width:560px){ .jours{margin:18px -28px 0;padding:0 28px 6px} }
+.jour{flex:none;scroll-snap-align:start;width:74px;padding:10px 0;border:1px solid var(--bord-2);background:var(--surface-2);border-radius:var(--rayon);cursor:pointer;text-align:center;transition:background-color .15s ease,border-color .15s ease}
+.jour small{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--texte-2)}
+.jour b{display:block;margin-top:2px;font-family:var(--font-display);font-weight:400;font-size:26px;line-height:1.1}
+.jour em{display:block;font-style:normal;font-size:11px;color:var(--texte-3)}
+.jour[aria-pressed="true"]{background:var(--rouge);border-color:var(--rouge)}
+.jour[aria-pressed="true"] small,.jour[aria-pressed="true"] em{color:var(--blanc)}
+.jour:focus-visible,.heure:focus-visible{outline:2px solid var(--blanc);outline-offset:2px}
+
+.heures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px}
+@media (min-width:480px){ .heures{grid-template-columns:repeat(4,minmax(0,1fr))} }
+.heure{height:48px;border:1px solid var(--bord-2);background:var(--surface-2);border-radius:var(--rayon);cursor:pointer;font-weight:600;font-size:15px;font-variant-numeric:tabular-nums;transition:background-color .15s ease,border-color .15s ease}
+.heure:hover{border-color:var(--blanc)}
+.heure[aria-pressed="true"]{background:var(--rouge);border-color:var(--rouge)}
+
+.vide{margin-top:18px;padding:18px;border-left:3px solid var(--rouge);background:var(--surface-2);font-size:14px;color:var(--texte-2)}
+.squelette{height:48px;margin-top:16px;border-radius:var(--rayon);background:linear-gradient(90deg,var(--surface) 0%,var(--surface-2) 50%,var(--surface) 100%);background-size:200% 100%;animation:charge 1.2s linear infinite}
+@keyframes charge{to{background-position:-200% 0}}
+
+/* ---------- Formulaire ---------- */
+.choisi{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin-top:16px;background:var(--rouge);border-radius:var(--rayon);font-weight:600;font-size:15px}
+.choisi button{flex:none;border:0;background:none;padding:0;cursor:pointer;font-size:13px;text-decoration:underline;text-underline-offset:3px}
+form{margin-top:20px}
+.deux{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.champ{margin-bottom:16px}
+.champ > label{display:block;margin-bottom:8px;font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.saisie{display:block;width:100%;height:52px;padding:0 14px;border-radius:2px;background:var(--surface-2);border:1px solid var(--bord-2);color:var(--blanc);font:400 16px var(--font-ui);-webkit-appearance:none;appearance:none}
+.saisie::placeholder{color:var(--texte-3)}
+.saisie:focus{outline:none;border-color:var(--blanc);box-shadow:inset 3px 0 0 var(--rouge)}
+.saisie.invalide{border-color:var(--rouge);box-shadow:inset 3px 0 0 var(--rouge)}
+.saisie:-webkit-autofill{-webkit-text-fill-color:var(--blanc);box-shadow:0 0 0 1000px #111214 inset}
+.tel{display:grid;grid-template-columns:112px minmax(0,1fr);gap:8px}
+select.saisie{cursor:pointer;padding-right:30px;
+  background-image:linear-gradient(45deg,transparent 50%,var(--blanc) 50%),linear-gradient(135deg,var(--blanc) 50%,transparent 50%);
+  background-position:calc(100% - 18px) 23px,calc(100% - 13px) 23px;background-size:5px 5px;background-repeat:no-repeat}
+select.saisie option{background:var(--noir)}
+.indice{margin-top:7px;font-size:13px;color:var(--texte-3)}
+.consent{display:flex;gap:12px;align-items:flex-start;margin-top:6px;cursor:pointer;font-size:13px;line-height:1.55;color:var(--texte-2)}
+.consent input{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--rouge)}
+.consent.manque span{color:var(--blanc)}
+.consent.manque input{outline:2px solid var(--rouge);outline-offset:2px}
+.hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+.erreur{margin-top:16px;border-left:3px solid var(--rouge);padding:2px 0 2px 12px;font-size:14px}
+
+.bouton{display:flex;align-items:center;justify-content:center;gap:14px;width:100%;min-height:62px;margin-top:20px;padding:0 10px 0 24px;border:0;border-radius:2px;cursor:pointer;background:var(--rouge);color:var(--blanc);text-decoration:none;font-family:var(--font-ui);font-weight:600;font-size:14px;letter-spacing:.12em;text-transform:uppercase;transition:transform .2s ease}
+.bouton .fleche{display:grid;place-items:center;width:42px;height:42px;background:var(--noir);flex:none}
+.bouton .fleche .i{width:18px;height:18px;stroke:var(--blanc)}
+.bouton:hover{transform:translateY(-1px)}
+.bouton[aria-busy="true"]{cursor:wait;opacity:.85}
+@media (max-width:519px){ .bouton{font-size:13px;letter-spacing:.08em;padding-left:18px;gap:10px} }
+
+/* ---------- Confirmation ---------- */
+.merci{text-align:center;outline:none}
+.rond{width:64px;height:64px;margin:0 auto;display:grid;place-items:center;background:var(--rouge)}
+.rond .i{width:28px;height:28px;stroke-width:2.5}
+.merci h2{margin-top:20px;font-size:clamp(28px, 7vw, 36px)}
+.merci .quand{margin-top:14px;font-weight:600;font-size:18px}
+.merci p{margin:12px auto 0;max-width:42ch;color:var(--texte-2);font-size:15px}
+.agenda{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
+.agenda a{display:inline-flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid var(--bord-2);background:var(--surface-2);border-radius:var(--rayon);color:var(--blanc);text-decoration:none;font-size:13px;font-weight:600}
+.agenda a:hover{border-color:var(--blanc)}
+.agenda .i{width:15px;height:15px}
+
+.pied{margin-top:36px;text-align:center;font-size:12px;line-height:1.6;color:var(--texte-3)}
+.pied a{color:var(--texte-2)}
+
+[hidden]{display:none !important}
+@media (prefers-reduced-motion:reduce){ *{transition:none !important;animation:none !important} }
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-horloge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-tel" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8 9.8a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></symbol>
+  <symbol id="i-coche" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></symbol>
+</svg>
+
+<main class="page">
+  <header class="tete">
+    <div class="profil"><img src="/img/anthony-profil.webp" alt="" width="84" height="84" onerror="this.remove()"></div>
+    <p class="etiquette">Équipe Anthony Sirius</p>
+    <h1>Réserve ton <span class="aplat">appel.</span></h1>
+    <p class="chapo" id="chapo">Choisis un créneau : un membre de l’équipe d’Anthony t’appelle à l’heure prévue.</p>
+    <div class="infos">
+      <span><svg class="i"><use href="#i-horloge"/></svg><em><b id="duree">30</b>&nbsp;min</em></span>
+      <span><svg class="i"><use href="#i-tel"/></svg>Par téléphone</span>
+      <span><svg class="i"><use href="#i-globe"/></svg><em id="fuseau">Ton heure</em></span>
+    </div>
+  </header>
+
+  <!-- 1. Le créneau -->
+  <section class="carte" id="etapeCreneau" aria-labelledby="titreCreneau">
+    <h2 id="titreCreneau">1. Choisis ton créneau</h2>
+    <p class="sous">Les heures sont affichées à ton heure.</p>
+    <div class="squelette" id="chargement"></div>
+    <div class="jours" id="jours" role="group" aria-label="Jour" hidden></div>
+    <div class="heures" id="heures" role="group" aria-label="Heure" hidden></div>
+    <p class="vide" id="vide" hidden></p>
+  </section>
+
+  <!-- 2. Les coordonnées -->
+  <section class="carte" id="etapeInfos" aria-labelledby="titreInfos" hidden>
+    <h2 id="titreInfos">2. Tes coordonnées</h2>
+    <div class="choisi"><span id="choisiTexte"></span><button type="button" id="changer">Changer</button></div>
+
+    <form id="form" novalidate>
+      <div class="deux">
+        <div class="champ">
+          <label for="firstName">Prénom</label>
+          <input class="saisie" type="text" id="firstName" autocomplete="given-name" maxlength="80" required>
+        </div>
+        <div class="champ">
+          <label for="lastName">Nom</label>
+          <input class="saisie" type="text" id="lastName" autocomplete="family-name" maxlength="80" required>
+        </div>
+      </div>
+      <div class="champ">
+        <label for="phone">Téléphone</label>
+        <div class="tel">
+          <select class="saisie" id="country" aria-label="Indicatif du pays"></select>
+          <input class="saisie" type="tel" id="phone" autocomplete="tel-national" inputmode="tel" placeholder="6 12 34 56 78" maxlength="20" required>
+        </div>
+        <p class="indice" id="telApercu"></p>
+      </div>
+      <div class="champ">
+        <label for="email">E-mail</label>
+        <input class="saisie" type="email" id="email" autocomplete="email" inputmode="email" maxlength="160" placeholder="ton@email.com" required>
+      </div>
+
+      <label class="consent" id="consentBloc">
+        <input type="checkbox" id="consent" required>
+        <span>J’accepte d’être appelé par l’équipe d’Anthony Sirius. Les appels peuvent être enregistrés.</span>
+      </label>
+
+      <!-- Champ leurre : un robot le remplit, un humain ne le voit pas. -->
+      <div class="hp" aria-hidden="true"><label>Société <input type="text" id="company" tabindex="-1" autocomplete="off"></label></div>
+
+      <p class="erreur" id="erreur" role="alert" hidden></p>
+      <button type="submit" class="bouton" id="envoyer">Confirmer mon appel <span class="fleche"><svg class="i"><use href="#i-fleche"/></svg></span></button>
+    </form>
+  </section>
+
+  <!-- 3. C'est réservé -->
+  <section class="carte merci" id="merci" tabindex="-1" hidden>
+    <div class="rond"><svg class="i"><use href="#i-coche"/></svg></div>
+    <h2>C’est réservé.</h2>
+    <p class="quand" id="merciQuand"></p>
+    <p id="merciTexte"></p>
+    <div class="agenda">
+      <a id="agendaGoogle" href="#" target="_blank" rel="noopener"><svg class="i"><use href="#i-cal"/></svg>Google Agenda</a>
+      <a id="agendaIcs" href="#" download="appel-anthony-sirius.ics"><svg class="i"><use href="#i-cal"/></svg>Apple / Outlook</a>
+    </div>
+  </section>
+
+  <p class="pied">Anthony Sirius — IA Money Club • 2026<br>Les résultats dépendent de ton travail. Aucun résultat n’est garanti.</p>
+</main>
+
+<script>
+/* ============================================================
+   CONFIG — le même projet Supabase que la page de vente et le CRM.
+   ============================================================ */
+var SUPABASE_URL      = 'https://mmpazpnzkmianenkfyiv.supabase.co';
+var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tcGF6cG56a21pYW5lbmtmeWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMDgwOTcsImV4cCI6MjEwODg4NDA5N30.UhmwlOXXjj-q6MB1qR_uBNCd7anEkgYdk2Egp_9R6RA';
+
+/* Indicatifs (repris de la page de vente) : le numéro part au format
+   E.164, comme celui du formulaire. */
+var PAYS = [
+  ['FR','France','33'],        ['BE','Belgique','32'],      ['CH','Suisse','41'],
+  ['LU','Luxembourg','352'],   ['MC','Monaco','377'],       ['CA','Canada','1'],
+  ['US','États-Unis','1'],     ['MA','Maroc','212'],        ['DZ','Algérie','213'],
+  ['TN','Tunisie','216'],      ['SN','Sénégal','221'],      ['CI','Côte d\'Ivoire','225'],
+  ['CM','Cameroun','237'],     ['CD','RD Congo','243'],     ['CG','Congo','242'],
+  ['GA','Gabon','241'],        ['ML','Mali','223'],         ['BF','Burkina Faso','226'],
+  ['NE','Niger','227'],        ['TG','Togo','228'],         ['BJ','Bénin','229'],
+  ['GN','Guinée','224'],       ['MG','Madagascar','261'],   ['MU','Maurice','230'],
+  ['RE','La Réunion','262'],   ['GP','Guadeloupe','590'],   ['MQ','Martinique','596'],
+  ['GF','Guyane','594'],       ['PF','Polynésie fr.','689'],['NC','Nouvelle-Calédonie','687'],
+  ['HT','Haïti','509'],        ['ES','Espagne','34'],       ['PT','Portugal','351'],
+  ['IT','Italie','39'],        ['DE','Allemagne','49'],     ['AT','Autriche','43'],
+  ['NL','Pays-Bas','31'],      ['GB','Royaume-Uni','44'],   ['IE','Irlande','353'],
+  ['DK','Danemark','45'],      ['SE','Suède','46'],         ['NO','Norvège','47'],
+  ['FI','Finlande','358'],     ['PL','Pologne','48'],       ['RO','Roumanie','40'],
+  ['GR','Grèce','30'],         ['TR','Turquie','90'],       ['IL','Israël','972'],
+  ['AE','Émirats arabes unis','971'], ['SA','Arabie saoudite','966'], ['QA','Qatar','974'],
+  ['EG','Égypte','20'],        ['ZA','Afrique du Sud','27'],['NG','Nigéria','234'],
+  ['AO','Angola','244'],       ['BW','Botswana','267'],     ['BI','Burundi','257'],
+  ['CV','Cap-Vert','238'],     ['KM','Comores','269'],      ['DJ','Djibouti','253'],
+  ['ER','Érythrée','291'],     ['SZ','Eswatini','268'],     ['ET','Éthiopie','251'],
+  ['GM','Gambie','220'],       ['GH','Ghana','233'],        ['GQ','Guinée équatoriale','240'],
+  ['GW','Guinée-Bissau','245'],['KE','Kenya','254'],        ['LS','Lesotho','266'],
+  ['LR','Liberia','231'],      ['LY','Libye','218'],        ['MW','Malawi','265'],
+  ['MR','Mauritanie','222'],   ['MZ','Mozambique','258'],   ['NA','Namibie','264'],
+  ['UG','Ouganda','256'],      ['CF','Centrafrique','236'], ['RW','Rwanda','250'],
+  ['ST','Sao Tomé-et-Principe','239'], ['SC','Seychelles','248'], ['SL','Sierra Leone','232'],
+  ['SO','Somalie','252'],      ['SD','Soudan','249'],       ['SS','Soudan du Sud','211'],
+  ['TZ','Tanzanie','255'],     ['TD','Tchad','235'],        ['ZM','Zambie','260'],
+  ['ZW','Zimbabwe','263'],
+  ['BR','Brésil','55'],        ['MX','Mexique','52'],       ['AU','Australie','61'],
+  ['TH','Thaïlande','66'],     ['SG','Singapour','65'],     ['ID','Indonésie','62'],
+  ['CN','Chine','86'],         ['JP','Japon','81'],         ['KR','Corée du Sud','82'],
+  ['IN','Inde','91'],          ['PK','Pakistan','92'],      ['BD','Bangladesh','880'],
+  ['LK','Sri Lanka','94'],     ['NP','Népal','977'],        ['VN','Viêt Nam','84'],
+  ['PH','Philippines','63'],   ['MY','Malaisie','60'],      ['KH','Cambodge','855'],
+  ['LA','Laos','856'],         ['MM','Myanmar','95'],       ['HK','Hong Kong','852'],
+  ['TW','Taïwan','886'],       ['MO','Macao','853'],        ['MN','Mongolie','976'],
+  ['BN','Brunei','673'],       ['TL','Timor oriental','670'],['MV','Maldives','960'],
+  ['BT','Bhoutan','975'],      ['AF','Afghanistan','93'],   ['IR','Iran','98'],
+  ['IQ','Irak','964'],         ['JO','Jordanie','962'],     ['LB','Liban','961'],
+  ['SY','Syrie','963'],        ['KW','Koweït','965'],       ['BH','Bahreïn','973'],
+  ['OM','Oman','968'],         ['YE','Yémen','967'],        ['PS','Palestine','970'],
+  ['KZ','Kazakhstan','7'],     ['UZ','Ouzbékistan','998'],  ['KG','Kirghizistan','996'],
+  ['TJ','Tadjikistan','992'],  ['TM','Turkménistan','993'], ['AZ','Azerbaïdjan','994'],
+  ['AM','Arménie','374'],      ['GE','Géorgie','995'],      ['CY','Chypre','357']
+];
+var ZERO_GARDE = ['225', '39'];
+function versE164(indicatif, brut){
+  var chiffres = String(brut).replace(/\D/g, '');
+  if (ZERO_GARDE.indexOf(String(indicatif)) === -1) chiffres = chiffres.replace(/^0+/, '');
+  return chiffres ? '+' + indicatif + chiffres : '';
+}
+
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  function suivre(nom){ if (window.va) window.va('event', { name: nom }); }
+
+  /* La racine du site, c'est le lien de l'équipe Skool : tous les créneaux
+     libres de l'équipe, et l'appel va au setter libre à l'heure choisie.
+     /<code> (ou ?s=<code> en local) ne montre qu'un setter. */
+  var morceaux = location.pathname.split('/').filter(Boolean);
+  var CODE = (new URLSearchParams(location.search).get('s')
+           || (morceaux[0] && morceaux[0] !== 'index.html' ? morceaux[0] : '') || '').toLowerCase();
+  /* Aperçu local seulement (Supabase vide) : de faux créneaux pour voir
+     la page. Jamais en ligne : la page y lit la vraie base. */
+  var APERCU = !SUPABASE_URL && new URLSearchParams(location.search).has('apercu');
+
+  var TZ = 'Europe/Paris';
+  try { TZ = Intl.DateTimeFormat().resolvedOptions().timeZone || TZ; } catch (e) {}
+  $('fuseau').textContent = 'Heure de ' + TZ.split('/').pop().replace(/_/g, ' ');
+
+  var calendrier = null, jourChoisi = null, creneauChoisi = null, envoiEnCours = false;
+
+  function rpc(nom, corps){
+    return fetch(SUPABASE_URL + '/rest/v1/rpc/' + nom, {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
+                 'Content-Type': 'application/json' },
+      body: JSON.stringify(corps)
+    }).then(function(r){
+      return r.text().then(function(t){
+        var d = null; try { d = t ? JSON.parse(t) : null; } catch (e) {}
+        if (!r.ok) { var err = new Error((d && d.message) || 'Erreur ' + r.status); err.statut = r.status; throw err; }
+        return d;
+      });
+    });
+  }
+
+  function apercu(){
+    var liste = [], base = new Date(); base.setMinutes(0, 0, 0);
+    for (var j = 1; j <= 6; j++){
+      if (j === 3) continue;
+      for (var h = 10; h < 18; h++){
+        if (h === 13 || (h + j) % 4 === 0) continue;
+        [0, 30].forEach(function(m){ var d = new Date(base); d.setDate(d.getDate() + j); d.setHours(h, m, 0, 0); liste.push(d.toISOString()); });
+      }
+    }
+    return Promise.resolve({ prenom: CODE ? 'Mathis' : null, duree: 30, creneaux: liste });
+  }
+
+  /* ---------------- Les jours et les heures ---------------- */
+  var cleJour = function(d){ return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
+  var fmtHeure = function(d){ return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
+  var fmtLong  = function(d){ return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); };
+
+  function parJour(){
+    var jours = {}, ordre = [];
+    calendrier.creneaux.forEach(function(iso){
+      var d = new Date(iso), k = cleJour(d);
+      if (!jours[k]){ jours[k] = []; ordre.push(k); }
+      jours[k].push(d);
+    });
+    return { jours: jours, ordre: ordre };
+  }
+
+  function dessiner(){
+    $('chargement').hidden = true;
+    var g = parJour();
+    if (!g.ordre.length){
+      $('jours').hidden = $('heures').hidden = true;
+      $('vide').hidden = false;
+      $('vide').textContent = 'Plus aucun créneau libre pour l’instant. Reviens un peu plus tard, de nouveaux créneaux s’ouvrent chaque semaine.';
+      return;
+    }
+    if (!jourChoisi || !g.jours[jourChoisi]) jourChoisi = g.ordre[0];
+    $('jours').hidden = false; $('vide').hidden = true;
+    $('jours').innerHTML = g.ordre.map(function(k){
+      var d = g.jours[k][0], n = g.jours[k].length;
+      return '<button type="button" class="jour" data-jour="' + k + '" aria-pressed="' + (k === jourChoisi) + '">'
+        + '<small>' + d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '') + '</small>'
+        + '<b>' + d.getDate() + '</b>'
+        + '<em>' + d.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '') + '</em></button>';
+    }).join('');
+    $('heures').hidden = false;
+    $('heures').innerHTML = g.jours[jourChoisi].map(function(d){
+      var iso = d.toISOString();
+      return '<button type="button" class="heure" data-iso="' + iso + '" aria-pressed="' + (iso === creneauChoisi) + '"'
+        + ' aria-label="' + fmtLong(d) + ' à ' + fmtHeure(d) + '">' + fmtHeure(d) + '</button>';
+    }).join('');
+  }
+
+  $('jours').addEventListener('click', function(e){
+    var b = e.target.closest('[data-jour]'); if (!b) return;
+    jourChoisi = b.getAttribute('data-jour'); dessiner();
+  });
+  $('heures').addEventListener('click', function(e){
+    var b = e.target.closest('[data-iso]'); if (!b) return;
+    creneauChoisi = b.getAttribute('data-iso');
+    var d = new Date(creneauChoisi);
+    $('choisiTexte').textContent = fmtLong(d).replace(/^./, function(c){ return c.toUpperCase(); }) + ' à ' + fmtHeure(d);
+    $('etapeCreneau').hidden = true;
+    $('etapeInfos').hidden = false;
+    $('etapeInfos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    setTimeout(function(){ $('firstName').focus({ preventScroll: true }); }, 350);
+    suivre('RDV · créneau choisi');
+  });
+  $('changer').addEventListener('click', function(){
+    $('etapeInfos').hidden = true; $('etapeCreneau').hidden = false; dessiner();
+  });
+
+  function impossible(texte){
+    $('chargement').hidden = true;
+    $('vide').hidden = false;
+    $('vide').textContent = texte;
+  }
+
+  function charger(){
+    if (!APERCU && (!SUPABASE_URL || !SUPABASE_ANON_KEY))
+      return impossible('La réservation n’est pas encore ouverte. Reviens un peu plus tard.');
+    (APERCU ? apercu() : rpc('rdv_calendrier', { p_code: CODE || null })).then(function(c){
+      if (!c) return impossible('Ce lien de réservation n’existe pas ou plus. Demande à ton contact de te le renvoyer.');
+      calendrier = c;
+      $('duree').textContent = c.duree;
+      if (c.prenom) $('chapo').textContent = 'Choisis un créneau : ' + c.prenom + ', de l’équipe d’Anthony, t’appelle à l’heure prévue.';
+      dessiner();
+    }).catch(function(){
+      impossible('Impossible de charger les créneaux. Vérifie ta connexion et recharge la page.');
+    });
+  }
+
+  /* ---------------- Le téléphone ---------------- */
+  var sel = $('country'), tel = $('phone');
+  PAYS.forEach(function(p){
+    var o = document.createElement('option');
+    o.value = p[2]; o.textContent = p[0] + ' +' + p[2]; o.setAttribute('data-pays', p[1]);
+    sel.appendChild(o);
+  });
+  sel.value = '33';
+  function e164(){ return versE164(sel.value, tel.value); }
+  function majApercu(){
+    var o = sel.options[sel.selectedIndex], n = e164();
+    $('telApercu').textContent = (o ? o.getAttribute('data-pays') : '') + ' · ' + (n || 'saisis ton numéro sans l’indicatif');
+  }
+  sel.addEventListener('change', majApercu); tel.addEventListener('input', majApercu); majApercu();
+
+  /* ---------------- L'envoi ---------------- */
+  function montrer(texte){ $('erreur').textContent = texte; $('erreur').hidden = false; }
+
+  $('form').addEventListener('submit', function(e){
+    e.preventDefault();
+    if (envoiEnCours) return;
+    $('erreur').hidden = true;
+    var champs = ['firstName', 'lastName', 'phone', 'email'], manque = null;
+    champs.forEach(function(id){
+      var el = $(id), v = el.value.trim();
+      var ok = id === 'email' ? /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)
+             : id === 'phone' ? e164().replace(/\D/g, '').length >= 8
+             : v.length > 0;
+      el.classList.toggle('invalide', !ok);
+      if (!ok && !manque) manque = el;
+    });
+    if (manque){ manque.focus(); return montrer('Vérifie les champs en rouge.'); }
+    if (!$('consent').checked){
+      $('consentBloc').classList.add('manque');
+      return montrer('Coche la case pour qu’on puisse t’appeler.');
+    }
+    if ($('company').value) return;   // un robot
+
+    envoiEnCours = true;
+    var bouton = $('envoyer'), libelle = bouton.innerHTML;
+    bouton.setAttribute('aria-busy', 'true'); bouton.textContent = 'Réservation…';
+
+    var corps = {
+      p_code: CODE || '', p_debut: creneauChoisi,
+      p_prenom: $('firstName').value.trim(), p_nom: $('lastName').value.trim(),
+      p_email: $('email').value.trim(), p_telephone: e164(),
+      p_page_url: location.href.slice(0, 300),
+      p_source: new URLSearchParams(location.search).get('ref') || document.referrer.slice(0, 300) || null
+    };
+    var envoi = APERCU
+      ? Promise.resolve({ ok: true, prenom: calendrier.prenom || 'Mathis', debut: creneauChoisi, duree: calendrier.duree })
+      : rpc('rdv_reserver', corps);
+
+    envoi.then(function(r){
+      suivre('RDV · réservé');
+      if (window.fbq) window.fbq('track', 'Schedule');
+      confirmer(r);
+    }).catch(function(err){
+      // Le créneau a filé entre-temps : on recharge et on revient au choix.
+      var pris = /créneau vient d.être pris/.test(err.message);
+      montrer(err.statut && err.statut < 500 ? err.message : 'La réservation n’est pas passée. Réessaie dans un instant.');
+      if (pris){
+        creneauChoisi = null;
+        setTimeout(function(){
+          $('etapeInfos').hidden = true; $('etapeCreneau').hidden = false;
+          $('chargement').hidden = false; $('jours').hidden = $('heures').hidden = true;
+          charger();
+        }, 1600);
+      }
+    }).then(function(){
+      envoiEnCours = false;
+      bouton.removeAttribute('aria-busy'); bouton.innerHTML = libelle;
+    });
+  });
+
+  $('consent').addEventListener('change', function(){ if (this.checked) $('consentBloc').classList.remove('manque'); });
+
+  /* ---------------- C'est réservé ---------------- */
+  function confirmer(r){
+    var debut = new Date(r.debut), fin = new Date(debut.getTime() + (r.duree || 30) * 60000);
+    $('merciQuand').textContent = fmtLong(debut).replace(/^./, function(c){ return c.toUpperCase(); }) + ' à ' + fmtHeure(debut);
+    $('merciTexte').textContent = r.prenom + ' t’appelle à cette heure-là, au ' + e164()
+      + '. Garde ton téléphone pas loin : le numéro peut t’être inconnu, décroche.';
+
+    var titre = 'Appel avec ' + r.prenom + ' (équipe Anthony Sirius)';
+    var z = function(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); };
+    $('agendaGoogle').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(titre) + '&dates=' + z(debut) + '/' + z(fin)
+      + '&details=' + encodeURIComponent(r.prenom + ' t’appelle au ' + e164() + '.');
+    var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Anthony Sirius//RDV//FR', 'BEGIN:VEVENT',
+      'UID:' + z(debut) + '-' + (CODE || 'equipe') + '@sirius', 'DTSTAMP:' + z(new Date()), 'DTSTART:' + z(debut), 'DTEND:' + z(fin),
+      'SUMMARY:' + titre, 'DESCRIPTION:' + r.prenom + ' t’appelle au ' + e164() + '.',
+      'BEGIN:VALARM', 'TRIGGER:-PT10M', 'ACTION:DISPLAY', 'DESCRIPTION:' + titre, 'END:VALARM',
+      'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
+    $('agendaIcs').href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
+
+    $('etapeInfos').hidden = true; $('etapeCreneau').hidden = true;
+    $('merci').hidden = false; $('merci').focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  charger();
+})();
+</script>
+</body>
+</html>
