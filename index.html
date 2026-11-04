@@ -109,6 +109,7 @@ select.saisie option{background:var(--noir)}
 .indice{margin-top:7px;font-size:13px;color:var(--texte-3)}
 .consent{display:flex;gap:12px;align-items:flex-start;margin-top:6px;cursor:pointer;font-size:13px;line-height:1.55;color:var(--texte-2)}
 .consent input{width:20px;height:20px;flex:none;margin:1px 0 0;accent-color:var(--rouge)}
+.consent a{color:var(--blanc);text-decoration:underline;text-underline-offset:2px}
 .consent.manque span{color:var(--blanc)}
 .consent.manque input{outline:2px solid var(--rouge);outline-offset:2px}
 .hp{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
@@ -205,7 +206,7 @@ select.saisie option{background:var(--noir)}
 
       <label class="consent" id="consentBloc">
         <input type="checkbox" id="consent" required>
-        <span>J’accepte d’être appelé par l’équipe d’Anthony Sirius. Les appels peuvent être enregistrés.</span>
+        <span>J’accepte d’être appelé par l’équipe d’Anthony Sirius. Les appels peuvent être enregistrés. <a href="https://lpsirius.vercel.app/legal#confidentialite" target="_blank" rel="noopener">Politique de confidentialité</a></span>
       </label>
 
       <!-- Champ leurre : un robot le remplit, un humain ne le voit pas. -->
