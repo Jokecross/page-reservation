@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <title>Réserve ton appel — Anthony Sirius</title>
-<meta name="description" content="Choisis un créneau : un membre de l’équipe d’Anthony Sirius t’appelle à l’heure prévue.">
+<meta name="description" content="Laisse tes coordonnées : un membre de l’équipe d’Anthony Sirius t’appelle.">
 <meta name="theme-color" content="#050607">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="preload" href="/fonts/anton-400.woff2" as="font" type="font/woff2" crossorigin>
@@ -14,7 +14,8 @@
 
 <style>
 /* ============================================================
-   Réservation d'un appel avec un setter de l'équipe Skool.
+   Demande d'appel avec l'équipe d'Anthony (élèves Skool) : un
+   formulaire, le lead tombe dans les Leads du jour du CRM.
    Même charte que la page de vente (design.md) : un rouge, un
    noir, un blanc ; Anton à la place de Blackheat, Poppins à la
    place de Nexa.
@@ -57,41 +58,13 @@ button,input,select{font:inherit;color:inherit}
 h1{margin-top:10px;font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:clamp(34px, 9vw, 52px);line-height:1.16;letter-spacing:.005em}
 .aplat{color:var(--blanc);padding:0 .14em;background:linear-gradient(var(--rouge),var(--rouge)) 0 50% / 100% .92em no-repeat;box-decoration-break:clone;-webkit-box-decoration-break:clone}
 .chapo{margin-top:12px;color:var(--texte-2);font-size:15px}
-.infos{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:18px}
-.infos > span{display:inline-flex;align-items:center;gap:8px;padding:7px 12px;border:1px solid var(--bord);background:var(--surface);border-radius:var(--rayon);font-size:13px;color:var(--texte-2)}
-.infos .i{width:15px;height:15px;color:var(--blanc)}
-.infos em{font-style:normal}
 
-/* ---------- Étapes ---------- */
+/* ---------- La carte ---------- */
 .carte{margin-top:28px;padding:22px 18px;border:1px solid var(--bord);background:var(--surface);border-radius:var(--rayon)}
 @media (min-width:560px){ .carte{padding:28px} }
 .carte h2{font-family:var(--font-display);font-weight:400;text-transform:uppercase;font-size:24px;line-height:1.16;letter-spacing:.01em}
-.carte .sous{margin-top:6px;font-size:13px;color:var(--texte-3)}
-
-.jours{display:flex;gap:8px;margin:18px calc(-1 * 18px) 0;padding:0 18px 6px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none}
-.jours::-webkit-scrollbar{display:none}
-@media (min-width:560px){ .jours{margin:18px -28px 0;padding:0 28px 6px} }
-.jour{flex:none;scroll-snap-align:start;width:74px;padding:10px 0;border:1px solid var(--bord-2);background:var(--surface-2);border-radius:var(--rayon);cursor:pointer;text-align:center;transition:background-color .15s ease,border-color .15s ease}
-.jour small{display:block;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--texte-2)}
-.jour b{display:block;margin-top:2px;font-family:var(--font-display);font-weight:400;font-size:26px;line-height:1.1}
-.jour em{display:block;font-style:normal;font-size:11px;color:var(--texte-3)}
-.jour[aria-pressed="true"]{background:var(--rouge);border-color:var(--rouge)}
-.jour[aria-pressed="true"] small,.jour[aria-pressed="true"] em{color:var(--blanc)}
-.jour:focus-visible,.heure:focus-visible{outline:2px solid var(--blanc);outline-offset:2px}
-
-.heures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:16px}
-@media (min-width:480px){ .heures{grid-template-columns:repeat(4,minmax(0,1fr))} }
-.heure{height:48px;border:1px solid var(--bord-2);background:var(--surface-2);border-radius:var(--rayon);cursor:pointer;font-weight:600;font-size:15px;font-variant-numeric:tabular-nums;transition:background-color .15s ease,border-color .15s ease}
-.heure:hover{border-color:var(--blanc)}
-.heure[aria-pressed="true"]{background:var(--rouge);border-color:var(--rouge)}
-
-.vide{margin-top:18px;padding:18px;border-left:3px solid var(--rouge);background:var(--surface-2);font-size:14px;color:var(--texte-2)}
-.squelette{height:48px;margin-top:16px;border-radius:var(--rayon);background:linear-gradient(90deg,var(--surface) 0%,var(--surface-2) 50%,var(--surface) 100%);background-size:200% 100%;animation:charge 1.2s linear infinite}
-@keyframes charge{to{background-position:-200% 0}}
 
 /* ---------- Formulaire ---------- */
-.choisi{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin-top:16px;background:var(--rouge);border-radius:var(--rayon);font-weight:600;font-size:15px}
-.choisi button{flex:none;border:0;background:none;padding:0;cursor:pointer;font-size:13px;text-decoration:underline;text-underline-offset:3px}
 form{margin-top:20px}
 .deux{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .champ{margin-bottom:16px}
@@ -127,12 +100,9 @@ select.saisie option{background:var(--noir)}
 .rond{width:64px;height:64px;margin:0 auto;display:grid;place-items:center;background:var(--rouge)}
 .rond .i{width:28px;height:28px;stroke-width:2.5}
 .merci h2{margin-top:20px;font-size:clamp(28px, 7vw, 36px)}
-.merci .quand{margin-top:14px;font-weight:600;font-size:18px}
-.merci p{margin:12px auto 0;max-width:42ch;color:var(--texte-2);font-size:15px}
-.agenda{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:22px}
-.agenda a{display:inline-flex;align-items:center;gap:8px;padding:11px 14px;border:1px solid var(--bord-2);background:var(--surface-2);border-radius:var(--rayon);color:var(--blanc);text-decoration:none;font-size:13px;font-weight:600}
-.agenda a:hover{border-color:var(--blanc)}
-.agenda .i{width:15px;height:15px}
+.merci .quand{margin:14px auto 0;max-width:40ch;font-weight:600;font-size:17px;line-height:1.5}
+.important{margin-top:22px;padding:16px 18px;border-left:3px solid var(--rouge);background:var(--surface-2);text-align:left;font-size:15px;line-height:1.55}
+.important b{display:block;margin-bottom:4px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blanc)}
 
 .pied{margin-top:36px;text-align:center;font-size:12px;line-height:1.6;color:var(--texte-3)}
 .pied a{color:var(--texte-2)}
@@ -145,11 +115,7 @@ select.saisie option{background:var(--noir)}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-fleche" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
-  <symbol id="i-horloge" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
-  <symbol id="i-tel" viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.4 1.8.7 2.7a2 2 0 01-.5 2.1L8 9.8a16 16 0 006 6l1.3-1.3a2 2 0 012.1-.4c.9.3 1.8.6 2.7.7a2 2 0 011.7 2z"/></symbol>
-  <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></symbol>
   <symbol id="i-coche" viewBox="0 0 24 24"><path d="M5 12l5 5L20 7"/></symbol>
-  <symbol id="i-cal" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 11h18"/></symbol>
 </svg>
 
 <main class="page">
@@ -157,28 +123,11 @@ select.saisie option{background:var(--noir)}
     <div class="profil"><img src="/img/anthony-profil.webp" alt="" width="84" height="84" onerror="this.remove()"></div>
     <p class="etiquette">Équipe Anthony Sirius</p>
     <h1>Réserve ton <span class="aplat">appel.</span></h1>
-    <p class="chapo" id="chapo">Choisis un créneau : un membre de l’équipe d’Anthony t’appelle à l’heure prévue.</p>
-    <div class="infos">
-      <span><svg class="i"><use href="#i-horloge"/></svg><em><b id="duree">15</b>&nbsp;min</em></span>
-      <span><svg class="i"><use href="#i-tel"/></svg>Par téléphone</span>
-      <span><svg class="i"><use href="#i-globe"/></svg><em id="fuseau">Ton heure</em></span>
-    </div>
+    <p class="chapo">Laisse tes coordonnées : un membre de l’équipe d’Anthony t’appelle.</p>
   </header>
 
-  <!-- 1. Le créneau -->
-  <section class="carte" id="etapeCreneau" aria-labelledby="titreCreneau">
-    <h2 id="titreCreneau">1. Choisis ton créneau</h2>
-    <p class="sous">Les heures sont affichées à ton heure.</p>
-    <div class="squelette" id="chargement"></div>
-    <div class="jours" id="jours" role="group" aria-label="Jour" hidden></div>
-    <div class="heures" id="heures" role="group" aria-label="Heure" hidden></div>
-    <p class="vide" id="vide" hidden></p>
-  </section>
-
-  <!-- 2. Les coordonnées -->
-  <section class="carte" id="etapeInfos" aria-labelledby="titreInfos" hidden>
-    <h2 id="titreInfos">2. Tes coordonnées</h2>
-    <div class="choisi"><span id="choisiTexte"></span><button type="button" id="changer">Changer</button></div>
+  <section class="carte" id="etapeInfos" aria-labelledby="titreInfos">
+    <h2 id="titreInfos">Tes coordonnées</h2>
 
     <form id="form" novalidate>
       <div class="deux">
@@ -192,16 +141,16 @@ select.saisie option{background:var(--noir)}
         </div>
       </div>
       <div class="champ">
-        <label for="phone">Téléphone</label>
+        <label for="email">E-mail</label>
+        <input class="saisie" type="email" id="email" autocomplete="email" inputmode="email" maxlength="160" placeholder="ton@email.com" required>
+      </div>
+      <div class="champ">
+        <label for="phone">Numéro WhatsApp</label>
         <div class="tel">
           <select class="saisie" id="country" aria-label="Indicatif du pays"></select>
           <input class="saisie" type="tel" id="phone" autocomplete="tel-national" inputmode="tel" placeholder="6 12 34 56 78" maxlength="20" required>
         </div>
         <p class="indice" id="telApercu"></p>
-      </div>
-      <div class="champ">
-        <label for="email">E-mail</label>
-        <input class="saisie" type="email" id="email" autocomplete="email" inputmode="email" maxlength="160" placeholder="ton@email.com" required>
       </div>
 
       <label class="consent" id="consentBloc">
@@ -213,20 +162,15 @@ select.saisie option{background:var(--noir)}
       <div class="hp" aria-hidden="true"><label>Société <input type="text" id="company" tabindex="-1" autocomplete="off"></label></div>
 
       <p class="erreur" id="erreur" role="alert" hidden></p>
-      <button type="submit" class="bouton" id="envoyer">Confirmer mon appel <span class="fleche"><svg class="i"><use href="#i-fleche"/></svg></span></button>
+      <button type="submit" class="bouton" id="envoyer">Envoyer <span class="fleche"><svg class="i"><use href="#i-fleche"/></svg></span></button>
     </form>
   </section>
 
-  <!-- 3. C'est réservé -->
-  <section class="carte merci" id="merci" tabindex="-1" hidden>
+  <section class="carte merci" id="merci" tabindex="-1" aria-live="polite" hidden>
     <div class="rond"><svg class="i"><use href="#i-coche"/></svg></div>
-    <h2>C’est réservé.</h2>
+    <h2 id="merciTitre">Merci !</h2>
     <p class="quand" id="merciQuand"></p>
-    <p id="merciTexte"></p>
-    <div class="agenda">
-      <a id="agendaGoogle" href="#" target="_blank" rel="noopener"><svg class="i"><use href="#i-cal"/></svg>Google Agenda</a>
-      <a id="agendaIcs" href="#" download="appel-anthony-sirius.ics"><svg class="i"><use href="#i-cal"/></svg>Apple / Outlook</a>
-    </div>
+    <p class="important"><b>Important</b><span id="merciImportant"></span></p>
   </section>
 
   <p class="pied">Anthony Sirius — IA Money Club • 2026<br>Les résultats dépendent de ton travail. Aucun résultat n’est garanti.</p>
@@ -238,6 +182,10 @@ select.saisie option{background:var(--noir)}
    ============================================================ */
 var SUPABASE_URL      = 'https://mmpazpnzkmianenkfyiv.supabase.co';
 var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1tcGF6cG56a21pYW5lbmtmeWl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTMzMDgwOTcsImV4cCI6MjEwODg4NDA5N30.UhmwlOXXjj-q6MB1qR_uBNCd7anEkgYdk2Egp_9R6RA';
+
+/* La nuit (heure de Paris), personne n'appelle : de 23 h à 9 h, le message
+   dit « demain matin » au lieu de « dans les minutes à suivre ». */
+var NUIT = { debut: 23, fin: 9 };
 
 /* Indicatifs (repris de la page de vente) : le numéro part au format
    E.164, comme celui du formulaire. */
@@ -299,129 +247,7 @@ function versE164(indicatif, brut){
 (function(){
   var $ = function(id){ return document.getElementById(id); };
   function suivre(nom){ if (window.va) window.va('event', { name: nom }); }
-
-  /* La racine du site, c'est le lien de l'équipe Skool : tous les créneaux
-     libres de l'équipe, et l'appel va au setter libre à l'heure choisie.
-     /<code> (ou ?s=<code> en local) ne montre qu'un setter. */
-  var morceaux = location.pathname.split('/').filter(Boolean);
-  var CODE = (new URLSearchParams(location.search).get('s')
-           || (morceaux[0] && morceaux[0] !== 'index.html' ? morceaux[0] : '') || '').toLowerCase();
-  /* Aperçu local seulement (Supabase vide) : de faux créneaux pour voir
-     la page. Jamais en ligne : la page y lit la vraie base. */
-  var APERCU = !SUPABASE_URL && new URLSearchParams(location.search).has('apercu');
-
-  var TZ = 'Europe/Paris';
-  try { TZ = Intl.DateTimeFormat().resolvedOptions().timeZone || TZ; } catch (e) {}
-  $('fuseau').textContent = 'Heure de ' + TZ.split('/').pop().replace(/_/g, ' ');
-
-  var calendrier = null, jourChoisi = null, creneauChoisi = null, envoiEnCours = false;
-
-  function rpc(nom, corps){
-    return fetch(SUPABASE_URL + '/rest/v1/rpc/' + nom, {
-      method: 'POST',
-      headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY,
-                 'Content-Type': 'application/json' },
-      body: JSON.stringify(corps)
-    }).then(function(r){
-      return r.text().then(function(t){
-        var d = null; try { d = t ? JSON.parse(t) : null; } catch (e) {}
-        if (!r.ok) { var err = new Error((d && d.message) || 'Erreur ' + r.status); err.statut = r.status; throw err; }
-        return d;
-      });
-    });
-  }
-
-  function apercu(){
-    var liste = [], base = new Date(); base.setMinutes(0, 0, 0);
-    for (var j = 1; j <= 6; j++){
-      if (j === 3) continue;
-      for (var h = 10; h < 18; h++){
-        if (h === 13 || (h + j) % 4 === 0) continue;
-        [0, 30].forEach(function(m){ var d = new Date(base); d.setDate(d.getDate() + j); d.setHours(h, m, 0, 0); liste.push(d.toISOString()); });
-      }
-    }
-    return Promise.resolve({ prenom: CODE ? 'Mathis' : null, duree: 15, creneaux: liste });
-  }
-
-  /* ---------------- Les jours et les heures ---------------- */
-  var cleJour = function(d){ return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); };
-  var fmtHeure = function(d){ return d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }); };
-  var fmtLong  = function(d){ return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); };
-
-  function parJour(){
-    var jours = {}, ordre = [];
-    calendrier.creneaux.forEach(function(iso){
-      var d = new Date(iso), k = cleJour(d);
-      if (!jours[k]){ jours[k] = []; ordre.push(k); }
-      jours[k].push(d);
-    });
-    return { jours: jours, ordre: ordre };
-  }
-
-  function dessiner(){
-    $('chargement').hidden = true;
-    var g = parJour();
-    if (!g.ordre.length){
-      $('jours').hidden = $('heures').hidden = true;
-      $('vide').hidden = false;
-      $('vide').textContent = 'Plus aucun créneau libre pour l’instant. Reviens un peu plus tard, de nouveaux créneaux s’ouvrent chaque semaine.';
-      return;
-    }
-    if (!jourChoisi || !g.jours[jourChoisi]) jourChoisi = g.ordre[0];
-    $('jours').hidden = false; $('vide').hidden = true;
-    $('jours').innerHTML = g.ordre.map(function(k){
-      var d = g.jours[k][0], n = g.jours[k].length;
-      return '<button type="button" class="jour" data-jour="' + k + '" aria-pressed="' + (k === jourChoisi) + '">'
-        + '<small>' + d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '') + '</small>'
-        + '<b>' + d.getDate() + '</b>'
-        + '<em>' + d.toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '') + '</em></button>';
-    }).join('');
-    $('heures').hidden = false;
-    $('heures').innerHTML = g.jours[jourChoisi].map(function(d){
-      var iso = d.toISOString();
-      return '<button type="button" class="heure" data-iso="' + iso + '" aria-pressed="' + (iso === creneauChoisi) + '"'
-        + ' aria-label="' + fmtLong(d) + ' à ' + fmtHeure(d) + '">' + fmtHeure(d) + '</button>';
-    }).join('');
-  }
-
-  $('jours').addEventListener('click', function(e){
-    var b = e.target.closest('[data-jour]'); if (!b) return;
-    jourChoisi = b.getAttribute('data-jour'); dessiner();
-  });
-  $('heures').addEventListener('click', function(e){
-    var b = e.target.closest('[data-iso]'); if (!b) return;
-    creneauChoisi = b.getAttribute('data-iso');
-    var d = new Date(creneauChoisi);
-    $('choisiTexte').textContent = fmtLong(d).replace(/^./, function(c){ return c.toUpperCase(); }) + ' à ' + fmtHeure(d);
-    $('etapeCreneau').hidden = true;
-    $('etapeInfos').hidden = false;
-    $('etapeInfos').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    setTimeout(function(){ $('firstName').focus({ preventScroll: true }); }, 350);
-    suivre('RDV · créneau choisi');
-  });
-  $('changer').addEventListener('click', function(){
-    $('etapeInfos').hidden = true; $('etapeCreneau').hidden = false; dessiner();
-  });
-
-  function impossible(texte){
-    $('chargement').hidden = true;
-    $('vide').hidden = false;
-    $('vide').textContent = texte;
-  }
-
-  function charger(){
-    if (!APERCU && (!SUPABASE_URL || !SUPABASE_ANON_KEY))
-      return impossible('La réservation n’est pas encore ouverte. Reviens un peu plus tard.');
-    (APERCU ? apercu() : rpc('rdv_calendrier', { p_code: CODE || null })).then(function(c){
-      if (!c) return impossible('Ce lien de réservation n’existe pas ou plus. Demande à ton contact de te le renvoyer.');
-      calendrier = c;
-      $('duree').textContent = c.duree;
-      if (c.prenom) $('chapo').textContent = 'Choisis un créneau : ' + c.prenom + ', de l’équipe d’Anthony, t’appelle à l’heure prévue.';
-      dessiner();
-    }).catch(function(){
-      impossible('Impossible de charger les créneaux. Vérifie ta connexion et recharge la page.');
-    });
-  }
+  var envoiEnCours = false;
 
   /* ---------------- Le téléphone ---------------- */
   var sel = $('country'), tel = $('phone');
@@ -438,15 +264,48 @@ function versE164(indicatif, brut){
   }
   sel.addEventListener('change', majApercu); tel.addEventListener('input', majApercu); majApercu();
 
+  /* ---------------- L'heure de Paris ---------------- */
+  function heureParis(){
+    var h = new Intl.DateTimeFormat('fr-FR', { timeZone: 'Europe/Paris', hour: 'numeric', hourCycle: 'h23' })
+      .formatToParts(new Date()).filter(function(p){ return p.type === 'hour'; })[0];
+    return h ? parseInt(h.value, 10) : 12;
+  }
+  function laNuit(){ var h = heureParis(); return h >= NUIT.debut || h < NUIT.fin; }
+
   /* ---------------- L'envoi ---------------- */
   function montrer(texte){ $('erreur').textContent = texte; $('erreur').hidden = false; }
+
+  /* Le lead va dans les Leads du jour de l'équipe Base44 (valeurs par défaut
+     de la base : equipe = starter, vivier = formulaire), marqué offre = skool :
+     le CRM lui met la pastille « Skool ». */
+  function envoyerLead(){
+    var params = new URLSearchParams(location.search);
+    var corps = {
+      first_name: $('firstName').value.trim(),
+      last_name:  $('lastName').value.trim(),
+      email:      $('email').value.trim(),
+      phone:      e164(),
+      page_url:   location.href.slice(0, 300),
+      source:     params.get('ref') || params.get('src') || document.referrer.slice(0, 300) || 'skool',
+      offre:      'skool'
+    };
+    return fetch(SUPABASE_URL + '/rest/v1/leads', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'apikey': SUPABASE_ANON_KEY,
+                 'Authorization': 'Bearer ' + SUPABASE_ANON_KEY, 'Prefer': 'return=minimal' },
+      body: JSON.stringify(corps)
+    }).then(function(r){
+      if (r.ok) return;
+      return r.text().then(function(t){ console.error('Supabase a refusé le lead :', r.status, t); throw new Error('supabase'); });
+    });
+  }
 
   $('form').addEventListener('submit', function(e){
     e.preventDefault();
     if (envoiEnCours) return;
     $('erreur').hidden = true;
-    var champs = ['firstName', 'lastName', 'phone', 'email'], manque = null;
-    champs.forEach(function(id){
+    var manque = null;
+    ['firstName', 'lastName', 'email', 'phone'].forEach(function(id){
       var el = $(id), v = el.value.trim();
       var ok = id === 'email' ? /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)
              : id === 'phone' ? e164().replace(/\D/g, '').length >= 8
@@ -459,39 +318,18 @@ function versE164(indicatif, brut){
       $('consentBloc').classList.add('manque');
       return montrer('Coche la case pour qu’on puisse t’appeler.');
     }
-    if ($('company').value) return;   // un robot
+    if ($('company').value) return confirmer();   // un robot : rien n'est envoyé
 
     envoiEnCours = true;
     var bouton = $('envoyer'), libelle = bouton.innerHTML;
-    bouton.setAttribute('aria-busy', 'true'); bouton.textContent = 'Réservation…';
+    bouton.setAttribute('aria-busy', 'true'); bouton.textContent = 'Envoi…';
 
-    var corps = {
-      p_code: CODE || '', p_debut: creneauChoisi,
-      p_prenom: $('firstName').value.trim(), p_nom: $('lastName').value.trim(),
-      p_email: $('email').value.trim(), p_telephone: e164(),
-      p_page_url: location.href.slice(0, 300),
-      p_source: new URLSearchParams(location.search).get('ref') || document.referrer.slice(0, 300) || null
-    };
-    var envoi = APERCU
-      ? Promise.resolve({ ok: true, prenom: calendrier.prenom || 'Mathis', debut: creneauChoisi, duree: calendrier.duree })
-      : rpc('rdv_reserver', corps);
-
-    envoi.then(function(r){
-      suivre('RDV · réservé');
-      if (window.fbq) window.fbq('track', 'Schedule');
-      confirmer(r);
-    }).catch(function(err){
-      // Le créneau a filé entre-temps : on recharge et on revient au choix.
-      var pris = /créneau vient d.être pris/.test(err.message);
-      montrer(err.statut && err.statut < 500 ? err.message : 'La réservation n’est pas passée. Réessaie dans un instant.');
-      if (pris){
-        creneauChoisi = null;
-        setTimeout(function(){
-          $('etapeInfos').hidden = true; $('etapeCreneau').hidden = false;
-          $('chargement').hidden = false; $('jours').hidden = $('heures').hidden = true;
-          charger();
-        }, 1600);
-      }
+    envoyerLead().then(function(){
+      suivre('Réservation Skool · envoyé');
+      if (window.fbq) window.fbq('track', 'Lead');
+      confirmer();
+    }).catch(function(){
+      montrer('L’envoi n’est pas passé. Vérifie ta connexion et réessaie.');
     }).then(function(){
       envoiEnCours = false;
       bouton.removeAttribute('aria-busy'); bouton.innerHTML = libelle;
@@ -500,31 +338,21 @@ function versE164(indicatif, brut){
 
   $('consent').addEventListener('change', function(){ if (this.checked) $('consentBloc').classList.remove('manque'); });
 
-  /* ---------------- C'est réservé ---------------- */
-  function confirmer(r){
-    var debut = new Date(r.debut), fin = new Date(debut.getTime() + (r.duree || 15) * 60000);
-    $('merciQuand').textContent = fmtLong(debut).replace(/^./, function(c){ return c.toUpperCase(); }) + ' à ' + fmtHeure(debut);
-    $('merciTexte').textContent = r.prenom + ' t’appelle à cette heure-là, au ' + e164()
-      + '. Garde ton téléphone pas loin : le numéro peut t’être inconnu, décroche.';
-
-    var titre = 'Appel avec ' + r.prenom + ' (équipe Anthony Sirius)';
-    var z = function(d){ return d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, ''); };
-    $('agendaGoogle').href = 'https://calendar.google.com/calendar/render?action=TEMPLATE'
-      + '&text=' + encodeURIComponent(titre) + '&dates=' + z(debut) + '/' + z(fin)
-      + '&details=' + encodeURIComponent(r.prenom + ' t’appelle au ' + e164() + '.');
-    var ics = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Anthony Sirius//RDV//FR', 'BEGIN:VEVENT',
-      'UID:' + z(debut) + '-' + (CODE || 'equipe') + '@sirius', 'DTSTAMP:' + z(new Date()), 'DTSTART:' + z(debut), 'DTEND:' + z(fin),
-      'SUMMARY:' + titre, 'DESCRIPTION:' + r.prenom + ' t’appelle au ' + e164() + '.',
-      'BEGIN:VALARM', 'TRIGGER:-PT10M', 'ACTION:DISPLAY', 'DESCRIPTION:' + titre, 'END:VALARM',
-      'END:VEVENT', 'END:VCALENDAR'].join('\r\n');
-    $('agendaIcs').href = 'data:text/calendar;charset=utf-8,' + encodeURIComponent(ics);
-
-    $('etapeInfos').hidden = true; $('etapeCreneau').hidden = true;
+  /* ---------------- Merci ---------------- */
+  function confirmer(){
+    if (laNuit()){
+      $('merciTitre').textContent = 'Merci beaucoup !';
+      $('merciQuand').textContent = 'Un membre de l’équipe t’appellera dès demain matin.';
+      $('merciImportant').textContent = 'En attendant, ne prends surtout pas l’abonnement sur Base44.';
+    } else {
+      $('merciTitre').textContent = 'Merci !';
+      $('merciQuand').textContent = 'Un membre de mon équipe va t’appeler dans les minutes à suivre.';
+      $('merciImportant').textContent = 'Ne prends surtout pas l’abonnement à Base44 avant l’appel avec l’équipe.';
+    }
+    $('etapeInfos').hidden = true;
     $('merci').hidden = false; $('merci').focus();
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-
-  charger();
 })();
 </script>
 </body>
