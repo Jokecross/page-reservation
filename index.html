@@ -74,7 +74,10 @@ form{margin-top:20px}
 .saisie:focus{outline:none;border-color:var(--blanc);box-shadow:inset 3px 0 0 var(--rouge)}
 .saisie.invalide{border-color:var(--rouge);box-shadow:inset 3px 0 0 var(--rouge)}
 .saisie:-webkit-autofill{-webkit-text-fill-color:var(--blanc);box-shadow:0 0 0 1000px #111214 inset}
-.tel{display:grid;grid-template-columns:112px minmax(0,1fr);gap:8px}
+.tel{display:grid;grid-template-columns:132px minmax(0,1fr);gap:8px}
+.whatsapp{margin:0 0 12px;padding:12px 14px;border-left:3px solid var(--rouge);background:var(--surface-2);font-size:14px;line-height:1.5;color:var(--texte-2)}
+.whatsapp b{display:block;margin-bottom:2px;color:var(--blanc);font-weight:600}
+.indice.ok{color:var(--blanc)}
 select.saisie{cursor:pointer;padding-right:30px;
   background-image:linear-gradient(45deg,transparent 50%,var(--blanc) 50%),linear-gradient(135deg,var(--blanc) 50%,transparent 50%);
   background-position:calc(100% - 18px) 23px,calc(100% - 13px) 23px;background-size:5px 5px;background-repeat:no-repeat}
@@ -145,10 +148,11 @@ select.saisie option{background:var(--noir)}
         <input class="saisie" type="email" id="email" autocomplete="email" inputmode="email" maxlength="160" placeholder="ton@email.com" required>
       </div>
       <div class="champ">
-        <label for="phone">Numéro WhatsApp</label>
+        <label for="phone">Ton numéro WhatsApp</label>
+        <p class="whatsapp" id="telAide"><b>Mets ton vrai numéro WhatsApp.</b>On t’appelle sur WhatsApp. Si le numéro est faux, on ne pourra pas te joindre.</p>
         <div class="tel">
-          <select class="saisie" id="country" aria-label="Indicatif du pays"></select>
-          <input class="saisie" type="tel" id="phone" autocomplete="tel-national" inputmode="tel" placeholder="6 12 34 56 78" maxlength="20" required>
+          <select class="saisie" id="country" aria-label="Indicatif de ton pays (obligatoire)" required></select>
+          <input class="saisie" type="tel" id="phone" autocomplete="tel-national" inputmode="tel" placeholder="6 12 34 56 78" maxlength="20" aria-describedby="telAide telApercu" required>
         </div>
         <p class="indice" id="telApercu"></p>
       </div>
@@ -239,7 +243,11 @@ var PAYS = [
 ];
 var ZERO_GARDE = ['225', '39'];
 function versE164(indicatif, brut){
-  var chiffres = String(brut).replace(/\D/g, '');
+  if (!indicatif) return '';
+  var texte = String(brut).trim(), chiffres = texte.replace(/\D/g, '');
+  /* Il a retapé l'indicatif (+33 6…, 0033 6…) : on ne le compte pas deux fois. */
+  if (/^\+/.test(texte) && chiffres.indexOf(indicatif) === 0) chiffres = chiffres.slice(String(indicatif).length);
+  else if (chiffres.indexOf('00' + indicatif) === 0) chiffres = chiffres.slice(2 + String(indicatif).length);
   if (ZERO_GARDE.indexOf(String(indicatif)) === -1) chiffres = chiffres.replace(/^0+/, '');
   return chiffres ? '+' + indicatif + chiffres : '';
 }
@@ -251,18 +259,35 @@ function versE164(indicatif, brut){
 
   /* ---------------- Le téléphone ---------------- */
   var sel = $('country'), tel = $('phone');
+  /* Aucun pays choisi d'avance : il doit choisir son indicatif lui-même. */
+  var vide = document.createElement('option');
+  vide.value = ''; vide.textContent = 'Indicatif'; vide.setAttribute('data-pays', '');
+  sel.appendChild(vide);
   PAYS.forEach(function(p){
     var o = document.createElement('option');
     o.value = p[2]; o.textContent = p[0] + ' +' + p[2]; o.setAttribute('data-pays', p[1]);
     sel.appendChild(o);
   });
-  sel.value = '33';
+  sel.value = '';
   function e164(){ return versE164(sel.value, tel.value); }
-  function majApercu(){
-    var o = sel.options[sel.selectedIndex], n = e164();
-    $('telApercu').textContent = (o ? o.getAttribute('data-pays') : '') + ' · ' + (n || 'saisis ton numéro sans l’indicatif');
+  /* Le numéro sans l'indicatif. En France : 9 chiffres (le 0 du début retiré). */
+  function telValide(){
+    if (!sel.value) return false;
+    var national = e164().slice(1 + sel.value.length);
+    if (sel.value === '33') return /^[1-9]\d{8}$/.test(national);
+    return national.length >= 6 && national.length <= 13;
   }
-  sel.addEventListener('change', majApercu); tel.addEventListener('input', majApercu); majApercu();
+  function majApercu(){
+    var o = sel.options[sel.selectedIndex], n = e164(), ap = $('telApercu');
+    ap.classList.toggle('ok', telValide());
+    if (!sel.value) ap.textContent = 'Choisis d’abord l’indicatif de ton pays, puis écris ton numéro.';
+    else if (!n) ap.textContent = o.getAttribute('data-pays') + ' (+' + sel.value + ') · écris ton numéro';
+    else if (!telValide()) ap.textContent = n + ' · ce numéro semble incomplet';
+    else ap.textContent = 'On t’appellera sur WhatsApp au ' + n + ' (' + o.getAttribute('data-pays') + '). Vérifie-le.';
+  }
+  sel.addEventListener('change', function(){ sel.classList.remove('invalide'); $('erreur').hidden = true; majApercu(); });
+  tel.addEventListener('input', function(){ if (telValide()){ tel.classList.remove('invalide'); $('erreur').hidden = true; } majApercu(); });
+  majApercu();
 
   /* ---------------- L'heure de Paris ---------------- */
   function heureParis(){
@@ -305,15 +330,21 @@ function versE164(indicatif, brut){
     if (envoiEnCours) return;
     $('erreur').hidden = true;
     var manque = null;
-    ['firstName', 'lastName', 'email', 'phone'].forEach(function(id){
+    ['firstName', 'lastName', 'email', 'country', 'phone'].forEach(function(id){
       var el = $(id), v = el.value.trim();
       var ok = id === 'email' ? /^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v)
-             : id === 'phone' ? e164().replace(/\D/g, '').length >= 8
+             : id === 'country' ? v.length > 0
+             : id === 'phone' ? (!sel.value ? v.length > 0 : telValide())
              : v.length > 0;
       el.classList.toggle('invalide', !ok);
       if (!ok && !manque) manque = el;
     });
-    if (manque){ manque.focus(); return montrer('Vérifie les champs en rouge.'); }
+    if (manque){
+      manque.focus();
+      return montrer(manque.id === 'country' ? 'Choisis l’indicatif de ton pays : sans lui, on ne peut pas t’appeler.'
+                   : manque.id === 'phone' ? 'Ton numéro WhatsApp semble faux ou incomplet. Mets ton vrai numéro, sinon on ne pourra pas t’appeler.'
+                   : 'Vérifie les champs en rouge.');
+    }
     if (!$('consent').checked){
       $('consentBloc').classList.add('manque');
       return montrer('Coche la case pour qu’on puisse t’appeler.');
