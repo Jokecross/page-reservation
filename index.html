@@ -311,7 +311,8 @@ function versE164(indicatif, brut){
       email:      $('email').value.trim(),
       phone:      e164(),
       page_url:   location.href.slice(0, 300),
-      source:     params.get('ref') || params.get('src') || document.referrer.slice(0, 300) || 'skool',
+      source:     ($('company').value ? 'skool · à vérifier (case anti-robot) · ' : '')
+                  + (params.get('ref') || params.get('src') || document.referrer.slice(0, 300) || 'skool'),
       offre:      'skool'
     };
     return fetch(SUPABASE_URL + '/rest/v1/leads', {
@@ -349,7 +350,9 @@ function versE164(indicatif, brut){
       $('consentBloc').classList.add('manque');
       return montrer('Coche la case pour qu’on puisse t’appeler.');
     }
-    if ($('company').value) return confirmer();   // un robot : rien n'est envoyé
+    /* La case cachée remplie : souvent le remplissage automatique du
+       navigateur, pas un robot. On envoie quand même, marqué « à vérifier »
+       dans la source, pour ne plus perdre personne sans trace. */
 
     envoiEnCours = true;
     var bouton = $('envoyer'), libelle = bouton.innerHTML;
@@ -372,8 +375,10 @@ function versE164(indicatif, brut){
   /* ---------------- Merci ---------------- */
   function confirmer(){
     if (laNuit()){
-      $('merciTitre').textContent = 'Merci beaucoup !';
-      $('merciQuand').textContent = 'Un membre de l’équipe t’appellera dès demain matin.';
+      $('merciTitre').textContent = 'Ta demande est bien enregistrée, merci !';
+      /* Après minuit, « demain » serait faux : c'est aujourd'hui, dès 9 h. */
+      $('merciQuand').textContent = 'Un membre de l’équipe t’appellera ' + (heureParis() >= NUIT.debut ? 'demain' : 'aujourd’hui')
+        + ' dans la journée, à partir de 9\u00a0h.';
       $('merciImportant').textContent = 'En attendant, ne prends surtout pas l’abonnement sur Base44.';
     } else {
       $('merciTitre').textContent = 'Merci !';
